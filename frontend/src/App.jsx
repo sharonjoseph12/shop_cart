@@ -28,36 +28,40 @@ const ProtectedRoute = ({ children, allowedRole }) => {
   return children;
 };
 
+import { LenisProvider } from './components/LenisProvider';
+
 function App() {
   return (
     <Router>
       <Toaster position="top-right" />
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<Home />} />
-          <Route path="login" element={<Login />} />
-          <Route path="products" element={<Products />} />
-          <Route path="cart" element={<Cart />} />
-          
-          <Route path="dashboard" element={
-            <ProtectedRoute allowedRole="Customer">
-              <CustomerDashboard />
-            </ProtectedRoute>
-          } />
-          
-          <Route path="seller/*" element={
-            <ProtectedRoute allowedRole="Seller">
-              <SellerDashboard />
-            </ProtectedRoute>
-          } />
+      <LenisProvider>
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<Home />} />
+            <Route path="login" element={<Login />} />
+            <Route path="products" element={<Products />} />
+            <Route path="cart" element={<Cart />} />
+            
+            <Route path="dashboard" element={
+              <ProtectedRoute allowedRole="Customer">
+                <CustomerDashboard />
+              </ProtectedRoute>
+            } />
+            
+            <Route path="seller/*" element={
+              <ProtectedRoute allowedRole="Seller">
+                <SellerDashboard />
+              </ProtectedRoute>
+            } />
 
-          <Route path="delivery/*" element={
-            <ProtectedRoute allowedRole="Delivery">
-              <DeliveryDashboard />
-            </ProtectedRoute>
-          } />
-        </Route>
-      </Routes>
+            <Route path="delivery/*" element={
+              <ProtectedRoute allowedRole="Delivery">
+                <DeliveryDashboard />
+              </ProtectedRoute>
+            } />
+          </Route>
+        </Routes>
+      </LenisProvider>
     </Router>
   );
 }

@@ -1,7 +1,129 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   body {
-    @apply bg-gray-50 text-gray-900 font-sans antialiased;
+    @apply bg-[#0A0A0A] text-[#F5F0EB] antialiased;
   }
+
+  .dark body {
+    @apply bg-[#0A0A0A] text-[#F5F0EB];
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(200, 16, 46, 0.3);
+  border-radius: 2px;
+}
+
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.font-serif-display {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.font-sans-luxury {
+  font-family: 'Montserrat', system-ui, sans-serif;
+}
+
+.luxury-heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: #F5F0EB;
+}
+
+.luxury-subtitle {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  color: rgba(245, 240, 235, 0.4);
+}
+
+.luxury-body {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  line-height: 1.8;
+  color: rgba(245, 240, 235, 0.4);
+}
+
+.luxury-accent {
+  color: #C8102E;
+}
+
+.luxury-gold {
+  color: #C5A455;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.text-glow {
+  text-shadow: 0 0 30px rgba(200, 16, 46, 0.3), 0 0 60px rgba(200, 16, 46, 0.15);
+}
+
+.cartier-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200, 16, 46, 0.3), transparent);
+}
+
+.cartier-red-glow {
+  box-shadow: 0 0 40px rgba(200, 16, 46, 0.15), inset 0 0 40px rgba(200, 16, 46, 0.05);
+}
+
+@keyframes horizontal-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.horizontal-scroll-container {
+  overflow: visible;
 }
