@@ -1,3 +1,9 @@
+const originalWarn = console.warn;
+console.warn = (...args) => {
+  if (args[0] && typeof args[0] === 'string' && args[0].includes('THREE.Clock')) return;
+  originalWarn.apply(console, args);
+};
+
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
