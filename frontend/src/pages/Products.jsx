@@ -2,10 +2,8 @@ import { useContext, useState, useMemo, useEffect } from 'react';
 import { ProductContext } from '../context/ProductContext';
 import { CartContext } from '../context/CartContext';
 import { motion } from 'framer-motion';
-import { FiSearch, FiShoppingCart, FiStar, FiFilter } from 'react-icons/fi';
+import { FiSearch, FiShoppingCart, FiStar, FiFilter, FiArrowRight } from 'react-icons/fi';
 import Fuse from 'fuse.js';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
 
 const Products = () => {
   const { products } = useContext(ProductContext);
@@ -17,7 +15,6 @@ const Products = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Fake loading delay for UX polish
   useEffect(() => {
     if (products.length > 0) {
       const timer = setTimeout(() => setLoading(false), 800);
@@ -26,12 +23,6 @@ const Products = () => {
   }, [products]);
 
   const categories = ['All', ...new Set(products.map(p => p.category))];
-
-  const getDeliveryDate = () => {
-    const days = ['Tomorrow', 'Thursday', 'Friday', 'Monday'];
-    // eslint-disable-next-line react-hooks/purity
-    return days[Math.floor(Math.random() * days.length)];
-  };
 
   const fuse = useMemo(() => new Fuse(products, {
     keys: ['title', 'category', 'description'],
@@ -62,70 +53,72 @@ const Products = () => {
       case 'Price: High to Low':
         return result.sort((a, b) => b.price - a.price);
       case 'Newest Arrivals':
-        return result.reverse(); 
+        return result.reverse();
       default:
         return result;
     }
   }, [products, search, category, priceRange, sortBy, fuse]);
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-200">
-      <div className="md:hidden bg-white dark:bg-gray-800 p-4 shadow-sm flex items-center gap-2 sticky top-16 z-40">
+    <div className="bg-[#0A0A0A] min-h-screen">
+      {/* Mobile sticky bar */}
+      <div className="md:hidden bg-[#0A0A0A]/80 backdrop-blur-xl p-4 flex items-center gap-2 sticky top-16 z-40 border-b border-white/[0.04]">
         <div className="relative flex-grow">
-          <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#F5F0EB]/30" size={14} />
           <input
             type="text"
             placeholder="Search products..."
-            className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg w-full focus:ring-2 focus:ring-indigo-500"
+            className="w-full pl-10 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.06] rounded-full text-[#F5F0EB] text-sm placeholder-[#F5F0EB]/20 focus:outline-none focus:border-[#C8102E]/40 focus:ring-1 focus:ring-[#C8102E]/20 font-sans-luxury"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <button 
-          className="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-gray-600 dark:text-gray-300"
+        <button
+          className="p-2.5 bg-white/[0.04] border border-white/[0.06] rounded-full text-[#F5F0EB]/40 hover:text-[#C8102E] transition-colors"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         >
-          <FiFilter size={20} />
+          <FiFilter size={16} />
         </button>
       </div>
 
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row gap-8">
-        
+
+        {/* Sidebar Filters */}
         <aside className={`md:w-64 flex-shrink-0 ${isSidebarOpen ? 'block' : 'hidden md:block'}`}>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 sticky top-24">
-            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-6">Filters</h2>
-            
+          <div className="glass-card p-6 sticky top-24">
+            <h2 className="font-serif-display text-lg text-[#F5F0EB] mb-6 tracking-tight">Filters</h2>
+
             <div className="mb-8">
-              <h3 className="font-semibold text-gray-700 dark:text-gray-300 mb-3">Category</h3>
-              <div className="space-y-2">
+              <h3 className="font-sans-luxury text-[10px] text-[#F5F0EB]/30 uppercase tracking-[0.2em] font-medium mb-4">Category</h3>
+              <div className="space-y-3">
                 {categories.map(c => (
-                  <label key={c} className="flex items-center gap-2 cursor-pointer hover:text-indigo-600 dark:hover:text-indigo-400">
-                    <input 
-                      type="radio" 
+                  <label key={c} className="flex items-center gap-3 cursor-pointer group">
+                    <input
+                      type="radio"
                       name="category"
                       checked={category === c}
                       onChange={() => setCategory(c)}
-                      className="text-indigo-600 focus:ring-indigo-500"
+                      className="appearance-none w-4 h-4 border border-white/[0.15] rounded-full checked:border-[#C8102E] checked:bg-[#C8102E] checked:shadow-[0_0_8px_rgba(200,16,46,0.4)] transition-all duration-200 cursor-pointer"
                     />
-                    <span className={`text-sm ${category === c ? 'font-semibold text-indigo-600 dark:text-indigo-400' : 'text-gray-600 dark:text-gray-400'}`}>{c}</span>
+                    <span className={`text-xs font-sans-luxury tracking-wider ${category === c ? 'text-[#F5F0EB] font-medium' : 'text-[#F5F0EB]/30 group-hover:text-[#F5F0EB]/50'} transition-colors`}>{c}</span>
                   </label>
                 ))}
               </div>
             </div>
 
             <div>
-              <h3 className="font-semibold text-gray-700 dark:text-gray-300 mb-3">Price</h3>
-              <div className="space-y-2">
+              <h3 className="font-sans-luxury text-[10px] text-[#F5F0EB]/30 uppercase tracking-[0.2em] font-medium mb-4">Price</h3>
+              <div className="space-y-3">
                 {['All', '0-25', '25-50', '50-100', '100+'].map(range => (
-                  <label key={range} className="flex items-center gap-2 cursor-pointer hover:text-indigo-600 dark:hover:text-indigo-400">
-                    <input 
-                      type="radio" 
+                  <label key={range} className="flex items-center gap-3 cursor-pointer group">
+                    <input
+                      type="radio"
                       name="price"
                       checked={priceRange === range}
                       onChange={() => setPriceRange(range)}
-                      className="text-indigo-600 focus:ring-indigo-500"
+                      className="appearance-none w-4 h-4 border border-white/[0.15] rounded-full checked:border-[#C8102E] checked:bg-[#C8102E] checked:shadow-[0_0_8px_rgba(200,16,46,0.4)] transition-all duration-200 cursor-pointer"
                     />
-                    <span className={`text-sm ${priceRange === range ? 'font-semibold text-indigo-600 dark:text-indigo-400' : 'text-gray-600 dark:text-gray-400'}`}>
+                    <span className={`text-xs font-sans-luxury tracking-wider ${priceRange === range ? 'text-[#F5F0EB] font-medium' : 'text-[#F5F0EB]/30 group-hover:text-[#F5F0EB]/50'} transition-colors`}>
                       {range === 'All' ? 'Any Price' : range === '100+' ? '$100 & Above' : `$${range.split('-')[0]} to $${range.split('-')[1]}`}
                     </span>
                   </label>
@@ -135,107 +128,109 @@ const Products = () => {
           </div>
         </aside>
 
+        {/* Main Content */}
         <div className="flex-grow">
-          <div className="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
-            <p className="text-gray-600 dark:text-gray-400 font-medium">
-              Showing <span className="font-bold text-gray-900 dark:text-white">{loading ? '...' : filteredAndSortedProducts.length}</span> results
+          {/* Results bar */}
+          <div className="glass-card p-4 flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+            <p className="font-sans-luxury text-[11px] text-[#F5F0EB]/40 tracking-wider">
+              Showing <span className="text-[#F5F0EB] font-medium">{loading ? '...' : filteredAndSortedProducts.length}</span> results
             </p>
 
             <div className="flex items-center gap-4 w-full sm:w-auto">
               <div className="hidden md:flex relative flex-grow sm:w-64">
-                <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#F5F0EB]/30" size={14} />
                 <input
                   type="text"
                   placeholder="Search products..."
-                  className="pl-10 pr-4 py-2 bg-gray-50 dark:bg-gray-700 border-none rounded-lg w-full focus:ring-2 focus:ring-indigo-500 text-sm dark:text-white"
+                  className="w-full pl-10 pr-4 py-2 bg-white/[0.04] border border-white/[0.06] rounded-full text-[#F5F0EB] text-sm placeholder-[#F5F0EB]/20 focus:outline-none focus:border-[#C8102E]/40 focus:ring-1 focus:ring-[#C8102E]/20 font-sans-luxury"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
               <select
-                className="bg-gray-50 dark:bg-gray-700 border-none rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 text-sm font-medium text-gray-700 dark:text-gray-200 w-full sm:w-auto cursor-pointer"
+                className="bg-white/[0.04] border border-white/[0.06] rounded-full px-4 py-2 text-[#F5F0EB]/60 font-sans-luxury text-[11px] tracking-wider focus:outline-none focus:border-[#C8102E]/40 cursor-pointer appearance-none"
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
               >
-                <option>Featured</option>
-                <option>Price: Low to High</option>
-                <option>Price: High to Low</option>
-                <option>Newest Arrivals</option>
+                <option className="bg-[#0A0A0A]">Featured</option>
+                <option className="bg-[#0A0A0A]">Price: Low to High</option>
+                <option className="bg-[#0A0A0A]">Price: High to Low</option>
+                <option className="bg-[#0A0A0A]">Newest Arrivals</option>
               </select>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {/* Product Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {loading ? (
               Array(8).fill(0).map((_, idx) => (
-                <div key={idx} className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden flex flex-col p-4">
-                  <Skeleton height={180} className="mb-4 rounded-xl dark:opacity-20" />
-                  <Skeleton count={2} className="mb-2 dark:opacity-20" />
-                  <Skeleton width={100} className="mb-4 dark:opacity-20" />
-                  <Skeleton height={40} className="rounded-full mt-auto dark:opacity-20" />
+                <div key={idx} className="glass-card overflow-hidden flex flex-col">
+                  <div className="h-48 bg-white/[0.02] animate-pulse" />
+                  <div className="p-5 space-y-3">
+                    <div className="h-3 bg-white/[0.04] rounded-full animate-pulse" />
+                    <div className="h-3 w-2/3 bg-white/[0.04] rounded-full animate-pulse" />
+                    <div className="h-4 w-1/3 bg-white/[0.04] rounded-full animate-pulse" />
+                    <div className="h-9 bg-white/[0.04] rounded-full animate-pulse mt-4" />
+                  </div>
                 </div>
               ))
             ) : (
               filteredAndSortedProducts.map((product, idx) => (
-                <motion.div 
+                <motion.div
                   key={product.id}
-                  initial={{ opacity: 0, y: 30, rotateX: 8 }}
-                  whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ delay: (idx % 8) * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  whileHover={{ y: -6, transition: { duration: 0.25 } }}
-                  className="bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 overflow-hidden flex flex-col hover:shadow-2xl hover:shadow-indigo-500/10 transition-shadow duration-500 group"
-                  style={{ transformStyle: 'preserve-3d' }}
+                  whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                  className="group glass-card overflow-hidden flex flex-col hover:shadow-[0_20px_60px_rgba(0,0,0,0.5)] hover:border-[#C8102E]/20 transition-all duration-500"
                 >
-                  <div className="h-56 bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 relative p-4 flex items-center justify-center overflow-hidden">
-                    <img 
-                      src={product.imageUrl} 
-                      alt={product.title} 
-                      className="max-h-full max-w-full object-contain mix-blend-multiply dark:mix-blend-normal group-hover:scale-110 transition-transform duration-700 ease-out" 
-                    />
-                    <div className="absolute top-3 left-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md text-gray-700 dark:text-gray-200 px-3 py-0.5 rounded-full text-[10px] font-bold tracking-widest uppercase border border-gray-200 dark:border-gray-600">
+                  <div className="h-48 bg-gradient-to-b from-white/[0.02] to-white/[0.01] relative p-4 flex items-center justify-center overflow-hidden">
+                    {product.imageUrl && (
+                      <img
+                        src={product.imageUrl}
+                        alt={product.title}
+                        className="max-h-full max-w-full object-contain opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 ease-out"
+                      />
+                    )}
+                    <div className="absolute top-3 left-3 bg-[#0A0A0A]/80 backdrop-blur-md text-[#F5F0EB]/50 px-3 py-0.5 rounded-full text-[9px] font-sans-luxury tracking-[0.15em] uppercase border border-white/[0.06]">
                       {product.category}
                     </div>
-                    {idx % 5 === 0 && (
-                      <div className="absolute top-3 right-3 bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-0.5 rounded-full text-[10px] font-bold shadow-lg">
-                        🔥 Hot
+                    {product.stock <= 5 && (
+                      <div className="absolute top-3 right-3 bg-[#C8102E] text-white px-2.5 py-0.5 rounded-full text-[9px] font-sans-luxury tracking-wider font-bold shadow-lg">
+                        Low Stock
                       </div>
                     )}
                   </div>
-                  
-                  <div className="p-5 flex-grow flex flex-col justify-between border-t border-gray-100 dark:border-gray-700">
+
+                  <div className="p-5 flex-grow flex flex-col justify-between border-t border-white/[0.04]">
                     <div>
-                      <h3 className="text-sm font-bold text-gray-900 dark:text-white line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors cursor-pointer mb-2">
+                      <h3 className="font-serif-display text-sm text-[#F5F0EB] leading-snug group-hover:text-[#C8102E] transition-colors cursor-pointer mb-3">
                         {product.title}
                       </h3>
-                      
-                      <div className="flex items-center gap-1 mb-2">
-                        <div className="flex text-yellow-400">
-                          <FiStar className="fill-current" size={12} />
-                          <FiStar className="fill-current" size={12} />
-                          <FiStar className="fill-current" size={12} />
-                          <FiStar className="fill-current" size={12} />
-                          <FiStar className="text-gray-300 dark:text-gray-600 fill-current" size={12} />
-                        </div>
-                        {/* eslint-disable-next-line react-hooks/purity */}
-                        <span className="text-[10px] text-gray-400 dark:text-gray-500 ml-1">({Math.floor(Math.random() * 500) + 50})</span>
+
+                      <div className="flex items-center gap-1 mb-3">
+                        {[0, 1, 2, 3, 4].map((star) => (
+                          <FiStar key={star} className={star < 4 ? 'text-[#C5A455] fill-current' : 'text-white/[0.08]'} size={10} />
+                        ))}
+                        <span className="text-[9px] text-[#F5F0EB]/20 font-sans-luxury ml-1">({product.stock || 0})</span>
                       </div>
 
                       <div className="flex items-baseline gap-2 mb-1">
-                        <span className="text-xl font-extrabold text-gray-900 dark:text-white">${product.price.toFixed(2)}</span>
-                        <span className="text-xs text-gray-400 dark:text-gray-500 line-through">${(product.price * 1.2).toFixed(2)}</span>
+                        <span className="font-serif-display text-xl text-[#F5F0EB] tracking-tight">${product.price.toFixed(2)}</span>
+                        <span className="text-[10px] text-[#F5F0EB]/20 line-through font-sans-luxury">${(product.price * 1.25).toFixed(2)}</span>
                       </div>
 
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 flex items-center gap-1">
-                        <span className="text-green-500 font-bold">FREE</span> Delivery by <span className="font-bold text-gray-700 dark:text-gray-300">{getDeliveryDate()}</span>
+                      <p className="text-[10px] text-[#F5F0EB]/20 font-sans-luxury mt-2 flex items-center gap-1">
+                        <span className="text-[#C5A455] font-medium">FREE</span> Delivery
                       </p>
                     </div>
-                    
+
                     <button
                       onClick={() => addToCart(product)}
-                      className="w-full mt-4 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-bold rounded-2xl hover:bg-indigo-600 dark:hover:bg-indigo-500 hover:text-white transition-all duration-300 active:scale-[0.97] shadow-sm flex items-center justify-center gap-2"
+                      className="w-full mt-4 py-2.5 bg-[#C8102E] text-[#F5F0EB] text-[10px] font-sans-luxury font-bold tracking-[0.15em] uppercase rounded-full hover:bg-[#A00D26] transition-all duration-300 active:scale-[0.97] flex items-center justify-center gap-2 shadow-lg shadow-[#C8102E]/20 group-hover:shadow-[#C8102E]/40"
                     >
-                      <FiShoppingCart size={16} />
+                      <FiShoppingCart size={12} />
                       Add to Cart
                     </button>
                   </div>
@@ -244,18 +239,17 @@ const Products = () => {
             )}
           </div>
 
+          {/* Empty State */}
           {!loading && filteredAndSortedProducts.length === 0 && (
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-16 text-center">
-              <div className="text-gray-400 mb-4 flex justify-center">
-                <FiSearch size={48} />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">No exact matches found</h3>
-              <p className="text-gray-500 dark:text-gray-400">Try changing or removing your filters.</p>
-              <button 
+            <div className="glass-card p-16 text-center">
+              <FiSearch size={40} className="mx-auto text-[#F5F0EB]/10 mb-4" />
+              <h3 className="font-serif-display text-lg text-[#F5F0EB] mb-2">No matches found</h3>
+              <p className="text-[#F5F0EB]/30 text-sm font-sans-luxury">Try adjusting your filters or search terms.</p>
+              <button
                 onClick={() => { setSearch(''); setCategory('All'); setPriceRange('All'); }}
-                className="mt-6 px-6 py-2 bg-indigo-50 dark:bg-gray-700 text-indigo-600 dark:text-indigo-400 rounded-full font-medium hover:bg-indigo-100 dark:hover:bg-gray-600"
+                className="mt-6 px-6 py-2.5 bg-white/[0.06] text-[#F5F0EB]/60 rounded-full font-sans-luxury text-[10px] tracking-wider uppercase hover:bg-[#C8102E]/30 hover:text-[#F5F0EB] transition-all border border-white/[0.06]"
               >
-                Clear all filters
+                Clear Filters <FiArrowRight className="inline ml-1" size={12} />
               </button>
             </div>
           )}

@@ -3,7 +3,7 @@ import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
 import { OrderContext } from '../context/OrderContext';
-import { FiShoppingCart, FiUser, FiLogOut, FiMoon, FiSun, FiX, FiMessageSquare, FiSend, FiShoppingBag, FiCheckCircle, FiArrowRight } from 'react-icons/fi';
+import { FiShoppingCart, FiUser, FiLogOut, FiMoon, FiSun, FiX, FiMessageSquare, FiSend, FiArrowRight } from 'react-icons/fi';
 import { AnimatePresence, motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
 
@@ -60,17 +60,17 @@ const AIAssistantWidget = () => {
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="absolute bottom-16 right-0 w-[340px] bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden flex flex-col"
+            className="absolute bottom-16 right-0 w-[340px] bg-[#0A0A0A] rounded-3xl shadow-2xl border border-white/[0.06] overflow-hidden flex flex-col"
             style={{ height: '420px' }}
           >
-            <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-4 text-white flex justify-between items-center flex-shrink-0">
-              <div className="font-bold flex items-center gap-2 text-sm">
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+            <div className="bg-gradient-to-r from-[#C8102E] to-[#8B0000] p-4 text-[#F5F0EB] flex justify-between items-center flex-shrink-0">
+              <div className="font-sans-luxury font-bold flex items-center gap-2 text-xs tracking-wider">
+                <span className="w-2 h-2 bg-[#C5A455] rounded-full animate-pulse"></span>
                 ShipCart AI
               </div>
-              <button onClick={() => setIsOpen(false)} className="hover:bg-white/20 p-1 rounded-lg transition-colors"><FiX size={16} /></button>
+              <button onClick={() => setIsOpen(false)} className="hover:bg-white/10 p-1 rounded-lg transition-colors"><FiX size={14} /></button>
             </div>
-            <div className="flex-grow overflow-y-auto p-4 space-y-3 bg-gray-50 dark:bg-gray-900">
+            <div className="flex-grow overflow-y-auto p-4 space-y-3 bg-[#0A0A0A]">
               {messages.map((msg, i) => (
                 <motion.div 
                   key={i}
@@ -78,10 +78,10 @@ const AIAssistantWidget = () => {
                   animate={{ opacity: 1, y: 0 }}
                   className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  <div className={`max-w-[85%] p-3 rounded-2xl text-sm leading-relaxed ${
+                  <div className={`max-w-[85%] p-3 rounded-2xl text-sm leading-relaxed font-sans-luxury ${
                     msg.role === 'user' 
-                      ? 'bg-indigo-600 text-white rounded-br-sm' 
-                      : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-bl-sm shadow-sm border border-gray-100 dark:border-gray-700'
+                      ? 'bg-[#C8102E] text-[#F5F0EB] rounded-br-sm' 
+                      : 'bg-white/[0.04] text-[#F5F0EB]/80 rounded-bl-sm border border-white/[0.04]'
                   }`}>
                     {msg.text}
                   </div>
@@ -89,20 +89,20 @@ const AIAssistantWidget = () => {
               ))}
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-white dark:bg-gray-800 p-3 rounded-2xl rounded-bl-sm shadow-sm border border-gray-100 dark:border-gray-700 flex items-center gap-1.5">
-                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                  <div className="bg-white/[0.04] p-3 rounded-2xl rounded-bl-sm border border-white/[0.04] flex items-center gap-1.5">
+                    <span className="w-2 h-2 bg-[#F5F0EB]/30 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                    <span className="w-2 h-2 bg-[#F5F0EB]/30 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                    <span className="w-2 h-2 bg-[#F5F0EB]/30 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
                   </div>
                 </div>
               )}
               <div ref={chatEndRef} />
             </div>
-            <div className="p-3 border-t border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 flex gap-2 flex-shrink-0">
+            <div className="p-3 border-t border-white/[0.04] bg-[#0A0A0A] flex gap-2 flex-shrink-0">
               <input 
                 type="text" 
                 placeholder="Ask me anything..." 
-                className="flex-grow bg-gray-100 dark:bg-gray-700 rounded-full px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900 dark:text-white" 
+                className="flex-grow bg-white/[0.04] border border-white/[0.06] rounded-full px-4 py-2.5 text-sm font-sans-luxury focus:outline-none focus:border-[#C8102E]/40 focus:ring-1 focus:ring-[#C8102E]/20 text-[#F5F0EB] placeholder-[#F5F0EB]/20" 
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -110,9 +110,9 @@ const AIAssistantWidget = () => {
               <button 
                 onClick={sendMessage} 
                 disabled={isTyping || !input.trim()}
-                className="bg-indigo-600 text-white p-2.5 rounded-full hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-[#C8102E] text-[#F5F0EB] p-2.5 rounded-full hover:bg-[#A00D26] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               >
-                <FiSend size={16}/>
+                <FiSend size={14}/>
               </button>
             </div>
           </motion.div>
@@ -120,11 +120,11 @@ const AIAssistantWidget = () => {
       </AnimatePresence>
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full flex items-center justify-center shadow-2xl shadow-indigo-500/30 hover:scale-105 transition-all duration-300 relative"
+        className="w-12 h-12 bg-[#C8102E] text-[#F5F0EB] rounded-full flex items-center justify-center shadow-2xl shadow-[#C8102E]/30 hover:scale-105 transition-all duration-300 relative"
       >
-        <span className="absolute -top-1 -right-1 flex h-4 w-4">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-4 w-4 bg-green-500 border-2 border-white dark:border-gray-900"></span>
+        <span className="absolute -top-0.5 -right-0.5 flex h-3 w-3">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C5A455] opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-3 w-3 bg-[#C5A455] border border-[#0A0A0A]"></span>
         </span>
         <FiMessageSquare size={24} />
       </button>
@@ -199,14 +199,14 @@ const MainLayout = () => {
           angle: 60,
           spread: 55,
           origin: { x: 0 },
-          colors: ['#4f46e5', '#818cf8', '#ffffff']
+          colors: ['#C8102E', '#C5A455', '#F5F0EB']
         });
         confetti({
           particleCount: 5,
           angle: 120,
           spread: 55,
           origin: { x: 1 },
-          colors: ['#4f46e5', '#818cf8', '#ffffff']
+          colors: ['#C8102E', '#C5A455', '#F5F0EB']
         });
 
         if (Date.now() < end) {
@@ -277,30 +277,30 @@ const MainLayout = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsCartOpen(false)}
-              className="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-50"
+              className="fixed inset-0 bg-[#0A0A0A]/80 backdrop-blur-sm z-50"
             />
             <motion.div 
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 h-full w-full max-w-md bg-white dark:bg-gray-900 shadow-2xl z-50 flex flex-col"
+              className="fixed top-0 right-0 h-full w-full max-w-md bg-[#0A0A0A] border-l border-white/[0.04] shadow-2xl z-50 flex flex-col"
             >
-              <div className="flex items-center justify-between p-6 border-b border-gray-100 dark:border-gray-800">
-                <h2 className="text-2xl font-bold flex items-center gap-2 text-gray-900 dark:text-white">
-                  <FiShoppingCart /> Your Cart
+              <div className="flex items-center justify-between p-6 border-b border-white/[0.04]">
+                <h2 className="font-serif-display text-xl text-[#F5F0EB] flex items-center gap-2 tracking-tight">
+                  <FiShoppingCart size={18} /> Your Cart
                 </h2>
-                <button onClick={() => setIsCartOpen(false)} className="p-2 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300">
-                  <FiX size={20} />
+                <button onClick={() => setIsCartOpen(false)} className="p-2 bg-white/[0.04] rounded-full hover:bg-[#C8102E]/20 text-[#F5F0EB]/30 hover:text-[#C8102E] transition-all">
+                  <FiX size={18} />
                 </button>
               </div>
 
-              <div className="flex-grow overflow-y-auto p-6 space-y-6">
+              <div className="flex-grow overflow-y-auto p-6 space-y-4">
                 {cart.length === 0 ? (
-                  <div className="h-full flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 space-y-4">
-                    <FiShoppingCart size={64} className="opacity-20" />
-                    <p className="text-lg">Your cart is empty.</p>
-                    <button onClick={() => setIsCartOpen(false)} className="text-indigo-600 dark:text-indigo-400 font-semibold mt-4">Continue Shopping</button>
+                  <div className="h-full flex flex-col items-center justify-center text-[#F5F0EB]/20 space-y-4">
+                    <FiShoppingCart size={56} className="opacity-20" />
+                    <p className="font-sans-luxury text-sm text-[#F5F0EB]/30">Your cart is empty.</p>
+                    <button onClick={() => setIsCartOpen(false)} className="text-[#C5A455] font-sans-luxury text-[10px] tracking-wider uppercase hover:text-[#C8102E] transition-colors mt-2">Continue Shopping</button>
                   </div>
                 ) : (
                   <AnimatePresence>
@@ -311,24 +311,24 @@ const MainLayout = () => {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95, height: 0 }}
-                        className="flex gap-4 border border-gray-100 dark:border-gray-800 p-4 rounded-2xl bg-white dark:bg-gray-800/50 shadow-sm"
+                        className="flex gap-4 border border-white/[0.04] p-4 rounded-2xl bg-white/[0.01] hover:border-[#C8102E]/20 transition-all"
                       >
-                        <div className="w-20 h-20 bg-gray-50 dark:bg-gray-800 rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center p-2">
-                          <img src={item.imageUrl} alt={item.title} className="max-h-full max-w-full object-contain mix-blend-multiply dark:mix-blend-normal" />
+                        <div className="w-20 h-20 bg-white/[0.02] rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center p-2 border border-white/[0.04]">
+                          <img src={item.imageUrl} alt={item.title} className="max-h-full max-w-full object-contain opacity-60" />
                         </div>
                         <div className="flex-grow flex flex-col justify-between">
                           <div>
-                            <h3 className="font-semibold text-gray-900 dark:text-white text-sm line-clamp-1">{item.title}</h3>
-                            <p className="text-indigo-600 dark:text-indigo-400 font-bold mt-1">${item.price.toFixed(2)}</p>
+                            <h3 className="font-sans-luxury text-sm text-[#F5F0EB] font-medium line-clamp-1">{item.title}</h3>
+                            <p className="text-[#C5A455] font-serif-display text-sm mt-1">${item.price.toFixed(2)}</p>
                           </div>
                           <div className="flex items-center justify-between mt-2">
-                            <div className="flex items-center gap-3 bg-gray-50 dark:bg-gray-900 rounded-full px-2 py-1 border border-gray-100 dark:border-gray-700">
-                              <button onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))} className="w-6 h-6 flex items-center justify-center rounded-full hover:bg-white dark:hover:bg-gray-800 shadow-sm text-gray-600 dark:text-gray-300 font-bold">-</button>
-                              <span className="text-xs font-semibold w-4 text-center dark:text-white">{item.quantity}</span>
-                              <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="w-6 h-6 flex items-center justify-center rounded-full hover:bg-white dark:hover:bg-gray-800 shadow-sm text-gray-600 dark:text-gray-300 font-bold">+</button>
+                            <div className="flex items-center gap-2 bg-white/[0.03] rounded-full px-1 py-0.5 border border-white/[0.06]">
+                              <button onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))} className="w-6 h-6 flex items-center justify-center rounded-full hover:bg-[#C8102E]/20 text-[#F5F0EB]/30 hover:text-[#C8102E] transition-all text-xs font-bold">−</button>
+                              <span className="text-xs font-sans-luxury w-4 text-center text-[#F5F0EB]">{item.quantity}</span>
+                              <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="w-6 h-6 flex items-center justify-center rounded-full hover:bg-[#C8102E]/20 text-[#F5F0EB]/30 hover:text-[#C8102E] transition-all text-xs font-bold">+</button>
                             </div>
-                            <button onClick={() => removeFromCart(item.id)} className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-full transition-colors">
-                              <FiX size={16} />
+                            <button onClick={() => removeFromCart(item.id)} className="text-[#F5F0EB]/20 hover:text-[#C8102E] hover:bg-[#C8102E]/10 p-1.5 rounded-full transition-all">
+                              <FiX size={14} />
                             </button>
                           </div>
                         </div>
@@ -339,22 +339,20 @@ const MainLayout = () => {
               </div>
 
               {cart.length > 0 && (
-                <div className="border-t border-gray-100 dark:border-gray-800 p-6 bg-gray-50 dark:bg-gray-900/50">
+                <div className="border-t border-white/[0.04] p-6 bg-white/[0.01]">
                   <div className="flex justify-between items-center mb-6">
-                    <span className="text-gray-500 dark:text-gray-400">Subtotal</span>
-                    <span className="text-2xl font-extrabold text-gray-900 dark:text-white">${total.toFixed(2)}</span>
+                    <span className="font-sans-luxury text-xs text-[#F5F0EB]/30 tracking-wider uppercase">Subtotal</span>
+                    <span className="font-serif-display text-2xl text-[#C5A455]">${total.toFixed(2)}</span>
                   </div>
                   <button 
                     onClick={handleCheckout}
                     disabled={isCheckingOut}
-                    className="w-full py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-2xl font-bold text-lg hover:bg-indigo-600 dark:hover:bg-indigo-500 hover:text-white transition-all duration-300 shadow-xl flex justify-center items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="w-full py-3.5 bg-[#C8102E] text-[#F5F0EB] rounded-full font-sans-luxury text-[10px] font-bold tracking-[0.15em] uppercase hover:bg-[#A00D26] transition-all duration-300 shadow-xl shadow-[#C8102E]/20 flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.97]"
                   >
                     {isCheckingOut ? (
-                      <span className="animate-pulse flex items-center gap-2">Processing Secure Checkout...</span>
-                    ) : cart.length === 0 ? (
-                      <span className="flex items-center gap-2"><FiCheckCircle /> Success!</span>
+                      <span className="animate-pulse flex items-center gap-2">Processing...</span>
                     ) : (
-                      <span className="flex items-center gap-2">Checkout Securely <FiArrowRight /></span>
+                      <span className="flex items-center gap-2">Checkout Securely <FiArrowRight size={14} /></span>
                     )}
                   </button>
                 </div>
@@ -368,37 +366,38 @@ const MainLayout = () => {
         <Outlet />
       </main>
 
-      <footer className="bg-gray-900 dark:bg-black border-t border-gray-800 py-16 mt-12 transition-colors duration-200">
+      <footer className="bg-[#0A0A0A] border-t border-white/[0.04] py-16 mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
             <div className="md:col-span-2">
-              <Link to="/" className="text-2xl font-bold text-white flex items-center gap-2 mb-4">
-                <FiShoppingBag /> ShipCart
+              <Link to="/" className="text-xl font-serif-display text-[#F5F0EB] flex items-center gap-3 mb-4 tracking-tight">
+                ShipCart <span className="text-[#C8102E]">●</span>
               </Link>
-              <p className="text-gray-400 text-sm leading-relaxed max-w-md">
-                Next-generation e-commerce platform with intelligent routing, real-time tracking, and a curated marketplace of premium products.
+              <p className="text-[#F5F0EB]/30 text-sm font-sans-luxury leading-relaxed max-w-md">
+                Next-generation logistics platform with intelligent routing, real-time tracking, and a curated marketplace of premium products.
               </p>
             </div>
             <div>
-              <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-4">Platform</h4>
+              <h4 className="text-[#F5F0EB] font-sans-luxury text-[10px] uppercase tracking-[0.2em] font-bold mb-4">Platform</h4>
               <div className="space-y-3">
-                <Link to="/products" className="block text-gray-400 text-sm hover:text-white transition-colors">Products</Link>
-                <Link to="/login" className="block text-gray-400 text-sm hover:text-white transition-colors">Seller Portal</Link>
-                <Link to="/login" className="block text-gray-400 text-sm hover:text-white transition-colors">Delivery Agent</Link>
+                <Link to="/products" className="block text-[#F5F0EB]/30 text-sm font-sans-luxury hover:text-[#C5A455] transition-colors">Products</Link>
+                <Link to="/login" className="block text-[#F5F0EB]/30 text-sm font-sans-luxury hover:text-[#C5A455] transition-colors">Seller Portal</Link>
+                <Link to="/login" className="block text-[#F5F0EB]/30 text-sm font-sans-luxury hover:text-[#C5A455] transition-colors">Delivery Agent</Link>
               </div>
             </div>
             <div>
-              <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-4">Tech Stack</h4>
+              <h4 className="text-[#F5F0EB] font-sans-luxury text-[10px] uppercase tracking-[0.2em] font-bold mb-4">Tech Stack</h4>
               <div className="space-y-3">
-                <p className="text-gray-400 text-sm">React + Vite</p>
-                <p className="text-gray-400 text-sm">Node.js + SQLite</p>
-                <p className="text-gray-400 text-sm">Kruskal MST Algorithm</p>
+                <p className="text-[#F5F0EB]/30 text-sm font-sans-luxury">React + Vite</p>
+                <p className="text-[#F5F0EB]/30 text-sm font-sans-luxury">Firebase + Firestore</p>
+                <p className="text-[#F5F0EB]/30 text-sm font-sans-luxury">Kruskal MST Algorithm</p>
               </div>
             </div>
           </div>
-          <div className="border-t border-gray-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-gray-500 text-sm">&copy; {new Date().getFullYear()} ShipCart Logistics. All rights reserved.</p>
-            <p className="text-gray-600 text-xs">Built with ❤️ for premium commerce</p>
+          <div className="cartier-divider mb-8" />
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p className="text-[#F5F0EB]/20 text-xs font-sans-luxury">&copy; {new Date().getFullYear()} ShipCart Logistics. All rights reserved.</p>
+            <p className="text-[#F5F0EB]/10 text-[10px] font-sans-luxury">Built for premium commerce</p>
           </div>
         </div>
       </footer>

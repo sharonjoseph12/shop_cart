@@ -3,7 +3,7 @@ import { ProductContext } from '../context/ProductContext';
 import { CartContext } from '../context/CartContext';
 import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { FiArrowRight, FiShoppingCart, FiGlobe, FiCpu, FiBox, FiTrendingUp, FiShield, FiTruck, FiStar, FiMapPin, FiTarget } from 'react-icons/fi';
+import { FiArrowRight, FiShoppingCart, FiGlobe, FiCpu } from 'react-icons/fi';
 import { EnhancedScene3D } from '../components/3d/EnhancedScene3D';
 import { ScrollProgress } from '../components/ScrollProgress';
 import { MagneticButton } from '../components/MagneticButton';

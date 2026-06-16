@@ -4,7 +4,7 @@ import { OrderContext } from '../../context/OrderContext';
 import { kruskalMST } from '../../utils/kruskal';
 import { ReactFlow, Background, Controls } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { FiMap, FiCheckCircle, FiTruck, FiTrendingDown } from 'react-icons/fi';
+import { FiMap, FiCheckCircle, FiTruck, FiTrendingDown, FiPackage } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 
 const DeliveryDashboard = () => {
@@ -29,9 +29,8 @@ const DeliveryDashboard = () => {
     const nodes = [
       { id: 'Warehouse', label: 'Central Hub', x: 250, y: 50 }
     ];
-    
+
     activeDeliveries.forEach(o => {
-      // Use deliveryLocation or ID for consistent coordinates
       const { x, y } = generateCoordinate(o.id);
       nodes.push({
         id: o.id,
@@ -58,19 +57,20 @@ const DeliveryDashboard = () => {
     return { dynamicNodes: nodes, dynamicEdges: edges, ...mstResult };
   }, [activeDeliveries]);
 
-  // React Flow Elements
   const nodes = dynamicNodes.map(node => ({
     id: node.id,
     position: { x: node.x, y: node.y },
     data: { label: node.label },
-    style: { 
-      background: node.id === 'Warehouse' ? '#4f46e5' : '#ffffff',
-      color: node.id === 'Warehouse' ? '#fff' : '#000',
-      border: '2px solid #4f46e5',
+    style: {
+      background: node.id === 'Warehouse' ? '#C8102E' : '#0A0A0A',
+      color: '#F5F0EB',
+      border: node.id === 'Warehouse' ? '2px solid #C5A455' : '1px solid rgba(255,255,255,0.08)',
       borderRadius: '12px',
       padding: '10px',
-      fontWeight: 'bold',
-      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+      fontWeight: '600',
+      fontFamily: 'Montserrat, sans-serif',
+      fontSize: '11px',
+      boxShadow: node.id === 'Warehouse' ? '0 4px 20px rgba(200,16,46,0.3)' : '0 4px 6px -1px rgb(0 0 0 / 0.3)'
     }
   }));
 
@@ -80,82 +80,81 @@ const DeliveryDashboard = () => {
     target: edge.target,
     label: `${edge.weight}km`,
     animated: true,
-    style: { stroke: '#4f46e5', strokeWidth: 3 }
+    style: { stroke: '#C5A455', strokeWidth: 2 }
   }));
 
   const originalEdges = dynamicEdges.filter(e => !mst.find(m => m.source === e.source && m.target === e.target)).slice(0, 15).map((edge, idx) => ({
     id: `orig_e${idx}`,
     source: edge.source,
     target: edge.target,
-    style: { stroke: '#e5e7eb', strokeWidth: 1, strokeDasharray: '5,5', opacity: 0.3 }
+    style: { stroke: 'rgba(255,255,255,0.06)', strokeWidth: 1, strokeDasharray: '5,5' }
   }));
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Delivery Dashboard</h1>
-        <p className="text-gray-500 dark:text-gray-400">Route optimization and active assignments</p>
+        <h1 className="font-serif-display text-2xl text-[#F5F0EB] tracking-tight">Delivery Dashboard</h1>
+        <p className="text-[#F5F0EB]/30 text-sm font-sans-luxury">Route optimization and active assignments</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mb-10">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass-card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Active Deliveries</h3>
-            <div className="p-2 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-xl"><FiTruck size={20} /></div>
+            <h3 className="font-sans-luxury text-[10px] text-[#F5F0EB]/30 uppercase tracking-[0.2em]">Active</h3>
+            <div className="p-2 bg-[#C8102E]/10 text-[#C8102E] rounded-xl"><FiTruck size={18} /></div>
           </div>
-          <p className="text-4xl font-extrabold text-gray-900 dark:text-white">{activeDeliveries.length}</p>
+          <p className="font-serif-display text-3xl text-[#F5F0EB]">{activeDeliveries.length}</p>
         </motion.div>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Completed</h3>
-            <div className="p-2 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-xl"><FiCheckCircle size={20} /></div>
+            <h3 className="font-sans-luxury text-[10px] text-[#F5F0EB]/30 uppercase tracking-[0.2em]">Completed</h3>
+            <div className="p-2 bg-[#C5A455]/10 text-[#C5A455] rounded-xl"><FiCheckCircle size={18} /></div>
           </div>
-          <p className="text-4xl font-extrabold text-gray-900 dark:text-white">{completedDeliveries.length}</p>
+          <p className="font-serif-display text-3xl text-[#F5F0EB]">{completedDeliveries.length}</p>
         </motion.div>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="glass-card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Distance</h3>
-            <div className="p-2 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-xl"><FiMap size={20} /></div>
+            <h3 className="font-sans-luxury text-[10px] text-[#F5F0EB]/30 uppercase tracking-[0.2em]">Total Dist</h3>
+            <div className="p-2 bg-white/[0.04] text-[#F5F0EB]/40 rounded-xl"><FiMap size={18} /></div>
           </div>
-          <p className="text-4xl font-extrabold text-gray-900 dark:text-white">{totalDistance} <span className="text-lg">km</span></p>
+          <p className="font-serif-display text-3xl text-[#F5F0EB]">{totalDistance} <span className="text-sm font-sans-luxury text-[#F5F0EB]/30">km</span></p>
         </motion.div>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="glass-card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Optimized</h3>
-            <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-xl"><FiTrendingDown size={20} /></div>
+            <h3 className="font-sans-luxury text-[10px] text-[#F5F0EB]/30 uppercase tracking-[0.2em]">Optimized</h3>
+            <div className="p-2 bg-[#C8102E]/10 text-[#C8102E] rounded-xl"><FiTrendingDown size={18} /></div>
           </div>
-          <p className="text-4xl font-extrabold text-gray-900 dark:text-white">{optimizedDistance} <span className="text-lg">km</span></p>
-          <p className="text-sm text-green-600 dark:text-green-400 font-bold mt-2">Saved {distanceSaved} km!</p>
+          <p className="font-serif-display text-3xl text-[#F5F0EB]">{optimizedDistance} <span className="text-sm font-sans-luxury text-[#F5F0EB]/30">km</span></p>
+          <p className="text-[10px] font-sans-luxury text-[#C5A455] font-bold mt-2">Saved {distanceSaved} km</p>
         </motion.div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden h-[600px] flex flex-col relative">
-          <div className="p-6 border-b border-gray-100 dark:border-gray-700 z-10 bg-white dark:bg-gray-800">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 glass-card overflow-hidden h-[600px] flex flex-col relative">
+          <div className="p-6 border-b border-white/[0.04] z-10 bg-[#0A0A0A]/80 backdrop-blur-md">
             <div className="flex justify-between items-center">
               <div>
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2"><FiMap className="text-indigo-500" /> Route Network</h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Live animated tracking across the Minimum Spanning Tree.</p>
+                <h2 className="font-serif-display text-lg text-[#F5F0EB] flex items-center gap-2 tracking-tight"><FiMap className="text-[#C8102E]" size={18} /> Route Network</h2>
+                <p className="text-[11px] text-[#F5F0EB]/30 font-sans-luxury mt-1">Minimum Spanning Tree — Kruskal optimized</p>
               </div>
-              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 font-medium bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
-                <span className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></span>
+              <div className="flex items-center gap-2 text-[10px] text-[#C5A455] font-sans-luxury tracking-wider font-medium bg-[#C5A455]/5 px-3 py-1.5 rounded-full border border-[#C5A455]/10">
+                <span className="w-2 h-2 rounded-full bg-[#C8102E] animate-pulse"></span>
                 Live GPS
               </div>
             </div>
           </div>
           <div className="flex-grow relative">
-            <ReactFlow 
-              nodes={nodes} 
-              edges={[...originalEdges, ...edges]} 
+            <ReactFlow
+              nodes={nodes}
+              edges={[...originalEdges, ...edges]}
               fitView
               attributionPosition="bottom-right"
-              className="dark:bg-gray-900"
+              className="!bg-[#0A0A0A]"
             >
-              <Background color="#f3f4f6" gap={16} />
-              <Controls className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg" />
+              <Background color="rgba(255,255,255,0.03)" gap={16} />
+              <Controls className="!bg-[#0A0A0A] !border-white/[0.06] !shadow-lg" />
             </ReactFlow>
 
-            {/* Fake Moving Truck overlay directly on the canvas */}
             <div className="absolute inset-0 pointer-events-none z-50 flex items-center justify-center">
               <motion.div
                 animate={{
@@ -163,90 +162,90 @@ const DeliveryDashboard = () => {
                   y: [0, -50, 100, -80, 0]
                 }}
                 transition={{ repeat: Infinity, duration: 15, ease: "easeInOut" }}
-                className="bg-indigo-600 text-white p-3 rounded-full shadow-2xl flex items-center justify-center border-4 border-white dark:border-gray-800"
+                className="bg-[#C8102E] text-[#F5F0EB] p-2.5 rounded-full shadow-2xl shadow-[#C8102E]/40 flex items-center justify-center border-2 border-[#C5A455]"
               >
-                <FiTruck size={24} />
+                <FiTruck size={20} />
               </motion.div>
             </div>
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 flex flex-col h-[600px]">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Delivery Management</h2>
-          <div className="overflow-y-auto flex-grow space-y-4 pr-2">
-            
-            {/* Unassigned Deliveries */}
+        <div className="glass-card p-6 flex flex-col h-[600px]">
+          <h2 className="font-serif-display text-lg text-[#F5F0EB] mb-6 tracking-tight">Management</h2>
+          <div className="overflow-y-auto flex-grow space-y-4 pr-2 custom-scrollbar">
+
             {orders.filter(o => !o.deliveryPartnerId && o.status === 'Pending').map(order => (
-              <motion.div 
+              <motion.div
                 key={`avail-${order.id}`}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="border-2 border-indigo-100 dark:border-indigo-900/30 rounded-2xl p-5 bg-white dark:bg-gray-800 hover:shadow-md transition-shadow relative overflow-hidden"
+                className="border border-[#C8102E]/20 rounded-2xl p-5 bg-[#C8102E]/[0.03] hover:bg-[#C8102E]/[0.06] transition-all relative overflow-hidden"
               >
-                <div className="absolute top-0 right-0 bg-indigo-500 text-white text-[10px] font-bold px-2 py-1 rounded-bl-lg uppercase tracking-wider">
+                <div className="absolute top-0 right-0 bg-[#C8102E] text-[#F5F0EB] text-[8px] font-sans-luxury font-bold px-2 py-1 rounded-bl-lg uppercase tracking-wider">
                   Available
                 </div>
                 <div className="flex justify-between items-start mb-3">
-                  <h3 className="font-bold text-gray-900 dark:text-white">{order.id}</h3>
-                  <span className="font-bold text-gray-900 dark:text-white">${order.totalAmount?.toFixed(2)}</span>
+                  <h3 className="font-sans-luxury text-xs text-[#F5F0EB] font-medium">{order.id.substring(0, 10)}...</h3>
+                  <span className="font-serif-display text-sm text-[#C5A455]">${order.totalAmount?.toFixed(2)}</span>
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-5 flex items-center gap-2">
-                  <FiMap className="text-gray-400" />
-                  <span className="font-semibold text-gray-900 dark:text-white">{order.deliveryLocation}</span>
+                <p className="text-[11px] text-[#F5F0EB]/30 font-sans-luxury mb-4 flex items-center gap-2">
+                  <FiMap className="text-[#F5F0EB]/20" size={12} />
+                  <span className="text-[#F5F0EB]/50">{order.deliveryLocation}</span>
                 </p>
-                
-                <button 
+
+                <button
                   onClick={() => assignOrder(order.id, user.id)}
-                  className="w-full bg-indigo-600 text-white py-2.5 rounded-xl text-sm font-bold hover:bg-indigo-700 shadow-md shadow-indigo-500/20 transition-all hover:-translate-y-0.5"
+                  className="w-full bg-[#C8102E] text-[#F5F0EB] py-2.5 rounded-xl text-[10px] font-sans-luxury font-bold tracking-wider uppercase hover:bg-[#A00D26] transition-all shadow-md shadow-[#C8102E]/20"
                 >
                   Accept Delivery
                 </button>
               </motion.div>
             ))}
 
-            <div className="my-6 border-b border-gray-100 dark:border-gray-700"></div>
+            {orders.filter(o => !o.deliveryPartnerId && o.status === 'Pending').length > 0 && activeDeliveries.filter(o => o.deliveryPartnerId === user?.id).length > 0 && (
+              <div className="cartier-divider my-4" />
+            )}
 
-            {/* My Active Deliveries */}
             {activeDeliveries.filter(o => o.deliveryPartnerId === user?.id).map(order => (
-              <motion.div 
+              <motion.div
                 key={`active-${order.id}`}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="border border-gray-100 dark:border-gray-700 rounded-2xl p-5 bg-gray-50 dark:bg-gray-900/50 hover:shadow-md transition-shadow"
+                className="border border-white/[0.04] rounded-2xl p-5 bg-white/[0.01] hover:bg-white/[0.02] transition-all"
               >
                 <div className="flex justify-between items-start mb-3">
-                  <h3 className="font-bold text-gray-900 dark:text-white">{order.id}</h3>
-                  <span className="bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-400 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider">{order.status}</span>
+                  <h3 className="font-sans-luxury text-xs text-[#F5F0EB] font-medium">{order.id.substring(0, 10)}...</h3>
+                  <span className="bg-[#C8102E]/10 text-[#C8102E] text-[8px] px-2.5 py-1 rounded-full font-sans-luxury font-bold uppercase tracking-wider">{order.status}</span>
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-5 flex items-center gap-2">
-                  <FiMap className="text-gray-400" />
-                  <span className="font-semibold text-gray-900 dark:text-white">{order.deliveryLocation}</span>
+                <p className="text-[11px] text-[#F5F0EB]/30 font-sans-luxury mb-4 flex items-center gap-2">
+                  <FiMap className="text-[#F5F0EB]/20" size={12} />
+                  <span className="text-[#F5F0EB]/50">{order.deliveryLocation}</span>
                 </p>
-                
+
                 <div className="flex gap-3">
                   {order.status !== 'Shipped' && (
-                    <button 
+                    <button
                       onClick={() => updateOrderStatus(order.id, 'Shipped')}
-                      className="flex-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 py-2.5 rounded-xl text-sm font-bold hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors"
+                      className="flex-1 bg-[#C5A455]/10 text-[#C5A455] py-2 rounded-xl text-[9px] font-sans-luxury font-bold tracking-wider uppercase hover:bg-[#C5A455]/20 transition-all"
                     >
                       Mark Shipped
                     </button>
                   )}
-                  <button 
+                  <button
                     onClick={() => updateOrderStatus(order.id, 'Delivered')}
-                    className="flex-1 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 py-2.5 rounded-xl text-sm font-bold hover:bg-green-100 dark:hover:bg-green-900/50 transition-colors"
+                    className="flex-1 bg-[#C8102E]/10 text-[#C8102E] py-2 rounded-xl text-[9px] font-sans-luxury font-bold tracking-wider uppercase hover:bg-[#C8102E]/20 transition-all"
                   >
                     Mark Delivered
                   </button>
                 </div>
               </motion.div>
             ))}
-            
+
             {orders.filter(o => !o.deliveryPartnerId && o.status === 'Pending').length === 0 && activeDeliveries.filter(o => o.deliveryPartnerId === user?.id).length === 0 && (
-              <div className="flex flex-col items-center justify-center h-full text-gray-400 dark:text-gray-500 py-10">
-                <FiCheckCircle size={48} className="mb-4 opacity-50" />
-                <p className="text-center font-medium">No available or active deliveries.</p>
-                <p className="text-center text-sm mt-1">You're all caught up!</p>
+              <div className="flex flex-col items-center justify-center h-full text-[#F5F0EB]/20 py-10">
+                <FiPackage size={40} className="mb-4 opacity-30" />
+                <p className="text-center font-sans-luxury text-xs font-medium text-[#F5F0EB]/30">No available or active deliveries.</p>
+                <p className="text-center text-[10px] font-sans-luxury mt-1 text-[#F5F0EB]/20">All caught up!</p>
               </div>
             )}
           </div>

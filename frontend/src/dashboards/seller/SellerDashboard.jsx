@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { ProductContext } from '../../context/ProductContext';
 import { OrderContext } from '../../context/OrderContext';
-import { FiDollarSign, FiPackage, FiShoppingBag, FiEdit, FiTrash2, FiPlus } from 'react-icons/fi';
+import { FiDollarSign, FiPackage, FiShoppingBag, FiEdit, FiTrash2, FiPlus, FiArrowLeft } from 'react-icons/fi';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { motion } from 'framer-motion';
 
@@ -16,7 +16,7 @@ const SellerDashboard = () => {
 
   const myProducts = products.filter(p => p.sellerId === user?.id);
   const totalProducts = myProducts.length;
-  
+
   let totalRevenue = 0;
   let totalOrders = 0;
 
@@ -31,7 +31,6 @@ const SellerDashboard = () => {
     if (hasMyProduct) totalOrders++;
   });
 
-  // Dummy chart data for demo
   const chartData = [
     { name: 'Mon', revenue: 400 },
     { name: 'Tue', revenue: 300 },
@@ -69,67 +68,66 @@ const SellerDashboard = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-8 flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Seller Dashboard</h1>
-          <p className="text-gray-500 dark:text-gray-400">Manage your store and track analytics</p>
+          <h1 className="font-serif-display text-2xl text-[#F5F0EB] tracking-tight">Seller Dashboard</h1>
+          <p className="text-[#F5F0EB]/30 text-sm font-sans-luxury">Manage your store and track analytics</p>
         </div>
-        <button 
+        <button
           onClick={() => { setCurrentProduct(null); setIsEditing(true); }}
-          className="bg-indigo-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-indigo-700 shadow-md transition-colors"
+          className="bg-[#C8102E] text-[#F5F0EB] px-4 py-2.5 rounded-full font-sans-luxury text-[10px] font-bold tracking-[0.15em] uppercase flex items-center gap-2 hover:bg-[#A00D26] transition-all shadow-lg shadow-[#C8102E]/20"
         >
-          <FiPlus /> Add Product
+          <FiPlus size={14} /> Add Product
         </button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
-        
-        {/* Left Side: Stats Cards */}
-        <div className="lg:col-span-1 space-y-6">
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-center gap-4 hover:shadow-lg transition-shadow">
-            <div className="p-4 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-2xl"><FiDollarSign size={28} /></div>
+
+        <div className="lg:col-span-1 space-y-5">
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="glass-card p-6 flex items-center gap-4 hover:border-[#C5A455]/30 transition-all">
+            <div className="p-3 bg-[#C5A455]/10 text-[#C5A455] rounded-xl"><FiDollarSign size={22} /></div>
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Total Revenue</p>
-              <p className="text-3xl font-extrabold text-gray-900 dark:text-white">${totalRevenue.toFixed(2)}</p>
+              <p className="text-[10px] text-[#F5F0EB]/30 font-sans-luxury uppercase tracking-[0.2em]">Revenue</p>
+              <p className="font-serif-display text-2xl text-[#F5F0EB] mt-1">${totalRevenue.toFixed(2)}</p>
             </div>
           </motion.div>
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }} className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-center gap-4 hover:shadow-lg transition-shadow">
-            <div className="p-4 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-2xl"><FiShoppingBag size={28} /></div>
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }} className="glass-card p-6 flex items-center gap-4 hover:border-[#C8102E]/20 transition-all">
+            <div className="p-3 bg-[#C8102E]/10 text-[#C8102E] rounded-xl"><FiShoppingBag size={22} /></div>
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Orders</p>
-              <p className="text-3xl font-extrabold text-gray-900 dark:text-white">{totalOrders}</p>
+              <p className="text-[10px] text-[#F5F0EB]/30 font-sans-luxury uppercase tracking-[0.2em]">Orders</p>
+              <p className="font-serif-display text-2xl text-[#F5F0EB] mt-1">{totalOrders}</p>
             </div>
           </motion.div>
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-center gap-4 hover:shadow-lg transition-shadow">
-            <div className="p-4 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-2xl"><FiPackage size={28} /></div>
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} className="glass-card p-6 flex items-center gap-4 hover:border-white/[0.06] transition-all">
+            <div className="p-3 bg-white/[0.04] text-[#F5F0EB]/40 rounded-xl"><FiPackage size={22} /></div>
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Products Listed</p>
-              <p className="text-3xl font-extrabold text-gray-900 dark:text-white">{totalProducts}</p>
+              <p className="text-[10px] text-[#F5F0EB]/30 font-sans-luxury uppercase tracking-[0.2em]">Listed</p>
+              <p className="font-serif-display text-2xl text-[#F5F0EB] mt-1">{totalProducts}</p>
             </div>
           </motion.div>
         </div>
 
-        {/* Right Side: Recharts Area Chart */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="lg:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700"
+          className="lg:col-span-2 glass-card p-6"
         >
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Revenue Trend (Demo)</h2>
+          <h2 className="font-serif-display text-lg text-[#F5F0EB] mb-6 tracking-tight">Revenue Trend</h2>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#4f46e5" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#C8102E" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#C8102E" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="name" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-                <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `$${value}`} />
-                <Tooltip 
-                  contentStyle={{ backgroundColor: '#ffffff', borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                  itemStyle={{ color: '#4f46e5', fontWeight: 'bold' }}
+                <XAxis dataKey="name" stroke="#F5F0EB20" fontSize={11} tickLine={false} axisLine={false} />
+                <YAxis stroke="#F5F0EB20" fontSize={11} tickLine={false} axisLine={false} tickFormatter={(value) => `$${value}`} />
+                <Tooltip
+                  contentStyle={{ background: '#0A0A0A', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.06)', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.5)' }}
+                  itemStyle={{ color: '#C5A455', fontWeight: 'bold' }}
+                  labelStyle={{ color: '#F5F0EB60' }}
                 />
-                <Area type="monotone" dataKey="revenue" stroke="#4f46e5" strokeWidth={3} fillOpacity={1} fill="url(#colorRevenue)" />
+                <Area type="monotone" dataKey="revenue" stroke="#C8102E" strokeWidth={2} fillOpacity={1} fill="url(#colorRevenue)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -137,79 +135,84 @@ const SellerDashboard = () => {
       </div>
 
       {isEditing ? (
-        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 p-8 mb-10">
-          <h2 className="text-xl font-bold mb-6 text-gray-900 dark:text-white">{currentProduct ? 'Edit Product' : 'Add New Product'}</h2>
+        <div className="glass-card p-8 mb-10">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="font-serif-display text-lg text-[#F5F0EB] tracking-tight">{currentProduct ? 'Edit Product' : 'Add New Product'}</h2>
+            <button onClick={() => setIsEditing(false)} className="text-[#F5F0EB]/30 hover:text-[#F5F0EB] transition-colors">
+              <FiArrowLeft size={18} />
+            </button>
+          </div>
           <form onSubmit={handleSaveProduct} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2">Title</label>
-                <input required name="title" defaultValue={currentProduct?.title} className="block w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-3 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" />
+                <label className="block font-sans-luxury text-[10px] text-[#F5F0EB]/30 uppercase tracking-[0.2em] mb-2">Title</label>
+                <input required name="title" defaultValue={currentProduct?.title} className="w-full bg-white/[0.03] border border-white/[0.06] rounded-2xl p-3 text-[#F5F0EB] text-sm font-sans-luxury focus:outline-none focus:border-[#C8102E]/40 focus:ring-1 focus:ring-[#C8102E]/20 transition-all" />
               </div>
               <div>
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2">Category</label>
-                <input required name="category" defaultValue={currentProduct?.category} className="block w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-3 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" />
+                <label className="block font-sans-luxury text-[10px] text-[#F5F0EB]/30 uppercase tracking-[0.2em] mb-2">Category</label>
+                <input required name="category" defaultValue={currentProduct?.category} className="w-full bg-white/[0.03] border border-white/[0.06] rounded-2xl p-3 text-[#F5F0EB] text-sm font-sans-luxury focus:outline-none focus:border-[#C8102E]/40 focus:ring-1 focus:ring-[#C8102E]/20 transition-all" />
               </div>
               <div>
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2">Price ($)</label>
-                <input required type="number" step="0.01" name="price" defaultValue={currentProduct?.price} className="block w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-3 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" />
+                <label className="block font-sans-luxury text-[10px] text-[#F5F0EB]/30 uppercase tracking-[0.2em] mb-2">Price ($)</label>
+                <input required type="number" step="0.01" name="price" defaultValue={currentProduct?.price} className="w-full bg-white/[0.03] border border-white/[0.06] rounded-2xl p-3 text-[#F5F0EB] text-sm font-sans-luxury focus:outline-none focus:border-[#C8102E]/40 focus:ring-1 focus:ring-[#C8102E]/20 transition-all" />
               </div>
               <div>
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2">Stock</label>
-                <input required type="number" name="stock" defaultValue={currentProduct?.stock} className="block w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-3 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" />
+                <label className="block font-sans-luxury text-[10px] text-[#F5F0EB]/30 uppercase tracking-[0.2em] mb-2">Stock</label>
+                <input required type="number" name="stock" defaultValue={currentProduct?.stock} className="w-full bg-white/[0.03] border border-white/[0.06] rounded-2xl p-3 text-[#F5F0EB] text-sm font-sans-luxury focus:outline-none focus:border-[#C8102E]/40 focus:ring-1 focus:ring-[#C8102E]/20 transition-all" />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2">Image URL</label>
-                <input required name="imageUrl" defaultValue={currentProduct?.imageUrl} className="block w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-3 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" />
+                <label className="block font-sans-luxury text-[10px] text-[#F5F0EB]/30 uppercase tracking-[0.2em] mb-2">Image URL</label>
+                <input required name="imageUrl" defaultValue={currentProduct?.imageUrl} className="w-full bg-white/[0.03] border border-white/[0.06] rounded-2xl p-3 text-[#F5F0EB] text-sm font-sans-luxury focus:outline-none focus:border-[#C8102E]/40 focus:ring-1 focus:ring-[#C8102E]/20 transition-all" />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2">Description</label>
-                <textarea required name="description" defaultValue={currentProduct?.description} rows="3" className="block w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-3 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"></textarea>
+                <label className="block font-sans-luxury text-[10px] text-[#F5F0EB]/30 uppercase tracking-[0.2em] mb-2">Description</label>
+                <textarea required name="description" defaultValue={currentProduct?.description} rows="3" className="w-full bg-white/[0.03] border border-white/[0.06] rounded-2xl p-3 text-[#F5F0EB] text-sm font-sans-luxury focus:outline-none focus:border-[#C8102E]/40 focus:ring-1 focus:ring-[#C8102E]/20 transition-all" />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2">Warehouse Location</label>
-                <input required name="warehouseLocation" defaultValue={currentProduct?.warehouseLocation} className="block w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-3 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" />
+                <label className="block font-sans-luxury text-[10px] text-[#F5F0EB]/30 uppercase tracking-[0.2em] mb-2">Warehouse Location</label>
+                <input required name="warehouseLocation" defaultValue={currentProduct?.warehouseLocation} className="w-full bg-white/[0.03] border border-white/[0.06] rounded-2xl p-3 text-[#F5F0EB] text-sm font-sans-luxury focus:outline-none focus:border-[#C8102E]/40 focus:ring-1 focus:ring-[#C8102E]/20 transition-all" />
               </div>
             </div>
             <div className="flex justify-end gap-4">
-              <button type="button" onClick={() => setIsEditing(false)} className="px-6 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-2xl text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">Cancel</button>
-              <button type="submit" className="px-6 py-3 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 shadow-lg shadow-indigo-500/20 transition-all hover:-translate-y-0.5">Save Product</button>
+              <button type="button" onClick={() => setIsEditing(false)} className="px-5 py-2.5 border border-white/[0.06] rounded-full text-[#F5F0EB]/40 font-sans-luxury text-[10px] tracking-wider uppercase hover:bg-white/[0.03] transition-all">Cancel</button>
+              <button type="submit" className="px-6 py-2.5 bg-[#C8102E] text-[#F5F0EB] rounded-full font-sans-luxury text-[10px] font-bold tracking-[0.15em] uppercase hover:bg-[#A00D26] transition-all shadow-lg shadow-[#C8102E]/20">Save Product</button>
             </div>
           </form>
         </div>
       ) : (
-        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-100 dark:divide-gray-700">
-            <thead className="bg-gray-50 dark:bg-gray-900/50">
+        <div className="glass-card overflow-hidden">
+          <table className="min-w-full divide-y divide-white/[0.04]">
+            <thead className="bg-white/[0.02]">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Product</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Price</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Stock</th>
-                <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-4 text-left font-sans-luxury text-[9px] text-[#F5F0EB]/20 uppercase tracking-[0.2em] font-bold">Product</th>
+                <th className="px-6 py-4 text-left font-sans-luxury text-[9px] text-[#F5F0EB]/20 uppercase tracking-[0.2em] font-bold">Price</th>
+                <th className="px-6 py-4 text-left font-sans-luxury text-[9px] text-[#F5F0EB]/20 uppercase tracking-[0.2em] font-bold">Stock</th>
+                <th className="px-6 py-4 text-right font-sans-luxury text-[9px] text-[#F5F0EB]/20 uppercase tracking-[0.2em] font-bold">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
+            <tbody className="divide-y divide-white/[0.04]">
               {myProducts.map(product => (
-                <tr key={product.id} className="hover:bg-gray-50 dark:hover:bg-gray-900/30 transition-colors">
+                <tr key={product.id} className="hover:bg-white/[0.02] transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <div className="h-12 w-12 flex-shrink-0 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-700 flex items-center justify-center p-1.5 overflow-hidden">
-                        <img className="max-h-full max-w-full object-contain mix-blend-multiply dark:mix-blend-normal" src={product.imageUrl} alt="" />
+                      <div className="h-10 w-10 flex-shrink-0 bg-white/[0.02] rounded-lg border border-white/[0.04] flex items-center justify-center p-1.5 overflow-hidden">
+                        <img className="max-h-full max-w-full object-contain opacity-60" src={product.imageUrl} alt="" />
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-bold text-gray-900 dark:text-white">{product.title}</div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">{product.category}</div>
+                        <div className="font-sans-luxury text-xs text-[#F5F0EB] font-medium">{product.title}</div>
+                        <div className="text-[10px] text-[#F5F0EB]/20 font-sans-luxury">{product.category}</div>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900 dark:text-white">${product.price.toFixed(2)}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold ${product.stock > 10 ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400' : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400'}`}>
+                  <td className="px-6 py-4 whitespace-nowrap font-sans-luxury text-xs text-[#C5A455]">${product.price.toFixed(2)}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`px-2.5 py-1 rounded-full text-[9px] font-sans-luxury font-bold tracking-wider ${product.stock > 10 ? 'bg-[#C5A455]/10 text-[#C5A455]' : 'bg-[#C8102E]/10 text-[#C8102E]'}`}>
                       {product.stock} units
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                    <button onClick={() => { setCurrentProduct(product); setIsEditing(true); }} className="text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 p-2 rounded-xl transition-colors"><FiEdit size={18} /></button>
-                    <button onClick={() => deleteProduct(product.id)} className="text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-xl transition-colors"><FiTrash2 size={18} /></button>
+                  <td className="px-6 py-4 whitespace-nowrap text-right space-x-1">
+                    <button onClick={() => { setCurrentProduct(product); setIsEditing(true); }} className="text-[#F5F0EB]/30 hover:text-[#C5A455] hover:bg-[#C5A455]/10 p-2 rounded-xl transition-all"><FiEdit size={15} /></button>
+                    <button onClick={() => deleteProduct(product.id)} className="text-[#F5F0EB]/30 hover:text-[#C8102E] hover:bg-[#C8102E]/10 p-2 rounded-xl transition-all"><FiTrash2 size={15} /></button>
                   </td>
                 </tr>
               ))}
