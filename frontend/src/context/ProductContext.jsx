@@ -15,10 +15,28 @@ export const ProductProvider = ({ children }) => {
       .catch(err => console.error('Failed to fetch products:', err));
   }, []);
 
-  const addProduct = (product) => {
-    const newProducts = [...products, { ...product, id: `prod_${Date.now()}` }];
-    setProducts(newProducts);
-    localStorage.setItem('shopsphere_products', JSON.stringify(newProducts));
+  const addProduct = async (product) => {
+    const newProduct = { ...product, id: `prod_${Date.now()}` };
+    
+    try {
+      const response = await fetch('http://localhost:3001/api/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newProduct)
+      });
+      
+      if (response.ok) {
+        const newProducts = [...products, newProduct];
+        setProducts(newProducts);
+        localStorage.setItem('shopsphere_products', JSON.stringify(newProducts));
+      } else {
+        console.error('Failed to save product to backend');
+      }
+    } catch (error) {
+      console.error('Error saving product:', error);
+    }
   };
 
   const editProduct = (id, updatedProduct) => {

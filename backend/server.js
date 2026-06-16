@@ -69,6 +69,55 @@ app.patch('/api/orders/:id/status', (req, res) => {
     });
 });
 
+app.post('/api/products', (req, res) => {
+    const { id, title, description, category, imageUrl, price, stock, warehouseLocation, sellerId } = req.body;
+    db.run(
+        'INSERT INTO products (id, title, description, category, imageUrl, price, stock, warehouseLocation, sellerId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [id, title, description, category, imageUrl, price, stock, warehouseLocation, sellerId],
+        function(err) {
+            if (err) return res.status(500).json({ error: err.message });
+            res.json({ id });
+        }
+    );
+});
+
+app.post('/api/orders', (req, res) => {
+    const { id, customerId, totalAmount, status, deliveryPartnerId, createdAt, deliveryLocation, items } = req.body;
+    
+    db.serialize(() => {
+        db.run('BEGIN TRANSACTION');
+        
+        db.run(
+            'INSERT INTO orders (id, customerId, totalAmount, status, deliveryPartnerId, createdAt, deliveryLocation) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            [id, customerId, totalAmount, status, deliveryPartnerId || null, createdAt, deliveryLocation],
+            function(err) {
+                if (err) {
+                    db.run('ROLLBACK');
+                    return res.status(500).json({ error: err.message });
+                }
+            }
+        );
+
+        if (items && items.length > 0) {
+            const stmt = db.prepare('INSERT INTO order_items (orderId, productId, quantity, price) VALUES (?, ?, ?, ?)');
+            for (const item of items) {
+                stmt.run([id, item.productId, item.quantity, item.price], function(err) {
+                    if (err) {
+                        db.run('ROLLBACK');
+                        return res.status(500).json({ error: err.message });
+                    }
+                });
+            }
+            stmt.finalize();
+        }
+
+        db.run('COMMIT', function(err) {
+            if (err) return res.status(500).json({ error: err.message });
+            res.json({ id });
+        });
+    });
+});
+
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });

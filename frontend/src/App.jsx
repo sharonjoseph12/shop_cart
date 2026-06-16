@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from './context/AuthContext';
+import { Toaster } from 'react-hot-toast';
 
 // Layouts
 import MainLayout from './layouts/MainLayout';
@@ -30,6 +31,7 @@ const ProtectedRoute = ({ children, allowedRole }) => {
 function App() {
   return (
     <Router>
+      <Toaster position="top-right" />
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />

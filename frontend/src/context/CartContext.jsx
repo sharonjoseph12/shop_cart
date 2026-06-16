@@ -1,4 +1,5 @@
 import { createContext, useState } from 'react';
+import toast from 'react-hot-toast';
 
 export const CartContext = createContext();
 
@@ -19,6 +20,15 @@ export const CartProvider = ({ children }) => {
       }
       localStorage.setItem('shopsphere_cart', JSON.stringify(newCart));
       return newCart;
+    });
+
+    toast.success(`${product.title} added to cart!`, {
+      icon: '🛒',
+      style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+      },
     });
   };
 

@@ -25,7 +25,7 @@ const MainLayout = () => {
     <div className="min-h-screen flex flex-col font-sans bg-gray-50 text-gray-900">
       <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link to="/" className="text-2xl font-bold text-indigo-600 tracking-tight">ShopSphere</Link>
+          <Link to="/" className="text-2xl font-bold text-indigo-600 tracking-tight">ShipCart</Link>
           <nav className="hidden md:flex space-x-8">
             <Link to="/" className="text-gray-600 hover:text-indigo-600 font-medium transition-colors">Home</Link>
             <Link to="/products" className="text-gray-600 hover:text-indigo-600 font-medium transition-colors">Products</Link>
@@ -67,7 +67,7 @@ const MainLayout = () => {
 
       <footer className="bg-white border-t border-gray-100 py-12 mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500">
-          <p>&copy; {new Date().getFullYear()} ShopSphere Logistics. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} ShipCart Logistics. All rights reserved.</p>
         </div>
       </footer>
     </div>

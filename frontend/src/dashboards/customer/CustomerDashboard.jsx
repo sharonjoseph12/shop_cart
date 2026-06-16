@@ -20,13 +20,13 @@ const CustomerDashboard = () => {
 
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
         <h2 className="text-xl font-bold text-gray-900 mb-6">Order History</h2>
-        
+
         {myOrders.length === 0 ? (
           <p className="text-gray-500 text-center py-10">You haven't placed any orders yet.</p>
         ) : (
           <div className="space-y-6">
             {myOrders.map(order => (
-              <motion.div 
+              <motion.div
                 key={order.id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -39,16 +39,15 @@ const CustomerDashboard = () => {
                   </div>
                   <div className="flex items-center gap-4">
                     <span className="font-bold text-lg text-gray-900">${order.totalAmount.toFixed(2)}</span>
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                      order.status === 'Delivered' ? 'bg-green-100 text-green-700' : 
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold ${order.status === 'Delivered' ? 'bg-green-100 text-green-700' :
                       order.status === 'Shipped' ? 'bg-blue-100 text-blue-700' :
-                      'bg-orange-100 text-orange-700'
-                    }`}>
+                        'bg-orange-100 text-orange-700'
+                      }`}>
                       {order.status}
                     </span>
                   </div>
                 </div>
-                
+
                 <div className="space-y-3">
                   {order.items.map((item, idx) => {
                     const product = products.find(p => p.id === item.productId);
