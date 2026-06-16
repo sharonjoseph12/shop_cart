@@ -1,5 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { mockProducts } from '../data/products';
+import { createContext, useState, useEffect } from 'react';
 
 export const ProductContext = createContext();
 

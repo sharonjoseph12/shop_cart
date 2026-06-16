@@ -1,5 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { mockOrders } from '../data/orders';
+import { createContext, useState, useEffect } from 'react';
 
 export const OrderContext = createContext();
 
